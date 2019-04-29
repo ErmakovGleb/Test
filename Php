@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body>
+<form method="post">
+<input type="text" id="text" name="text"/>
+<input type="submit" name="btn" value="Проверить" /> 
+</form>
+<div id="error" style="display: none;">
+Ошибка со скобками
+</div>
+<?php /*
+function assert_fail()
+{	
+    print "<script type='text/javascript'> $('#error').show() </script>";
+}
+
+function test_assert($parameter)
+{
+    assert(is_bool($parameter));
+}
+
+assert_options(ASSERT_ACTIVE,   true);
+assert_options(ASSERT_BAIL,     true);
+assert_options(ASSERT_WARNING,  false);
+assert_options(ASSERT_CALLBACK, 'fail'); */
+$str;
+if(isset( $_POST['btn'])){
+			$str=$_POST['text'];
+			submit($str);
+}
+
+function submit($str)
+{
+$error=0;
+$noerror=0;
+$i=0;
+$str2=$str;
+	while (strlen($str2)!==0 && $error!==1){
+		if(strlen($str2)===1){
+			$error=1;
+			break;
+		}
+		for($j=1;$j<strlen($str2);$j++){
+					if($str2{$j}===')' || $str2{$j}==='}' || $str2{$j}===']'){
+						break;
+					}
+					if($j===strlen($str2)-1){
+						$error=1;
+					}
+		}
+		if(($str2{$i}===')' || $str2{$i}==='}' || $str2{$i}===']') && $i===0){
+			$error=1;
+			break;
+		}
+		else if($str2{$i}===')' && $i!==0){
+			if($str2{$i-1}==='('){
+			$str2=str_replace('()','',$str2);
+			$i=0;
+			continue;
+			}
+			else
+			$error=1;
+			break;
+		}
+		else if($str2{$i}==='}' && $i!==0){
+			if($str2{$i-1}==='{'){
+			$str2=str_replace('{}','',$str2);
+			$i=0;
+			continue;
+			}
+			else
+			$error=1;
+			break;
+		}
+		else if($str2{$i}===']' && $i!==0){
+			if($str2{$i-1}==='['){
+			$str2=str_replace('[]','',$str2);
+			$i=0;
+			continue;
+			}
+			else
+			$error=1;
+			break;
+		}
+		if(strlen($str2)===0){
+			break;
+		}
+	$i++;
+}
+
+if($error===1){
+	print "<script type='text/javascript'> $('#error').show() </script>";
+}
+    assert($error===1);
+}
+?>
+</body>
+</html>
