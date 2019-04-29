@@ -1,0 +1,4 @@
+1. SELECT * FROM `employee` WHERE `city` LIKE 'А%' ORDER BY `name` ASC; 
+2. SELECT * FROM `employee` WHERE month(`birthday`)  = month(Date()) AND day(`birthday`) = day(Date());
+3. SELECT * FROM `employee` WHERE s`alary` = (SELECT MAX(`salary`) FROM `employee`) OR `salary` = (SELECT MIN(`salary`) FROM `employee`);
+4. SELECT MAX(`salary`),department_id FROM `employee` GROUP BY department_id;
